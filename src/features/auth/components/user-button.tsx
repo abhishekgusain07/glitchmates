@@ -15,13 +15,12 @@ import {
     DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 import { Loader, LogOut, UserIcon } from "lucide-react";
-import { useCurrentUser } from "../hooks/user-current-user";
+import { useCurrentUser } from "../../workspaces/api/user-current-user";
 import { useAuthActions } from "@convex-dev/auth/react";
 
 export const UserButton = () => {
     const {data, isLoading} = useCurrentUser()
     const {signOut} = useAuthActions();
-    console.log(data)
     if(isLoading) {
         return <Loader className="size-4 animate-spin text-muted-foreground" />
     }
@@ -30,7 +29,6 @@ export const UserButton = () => {
     }
     const {image, name, email} = data;
     const avatarFallback = name!.charAt(0).toUpperCase()
-    console.log(data)
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger className="outline-none relative">
