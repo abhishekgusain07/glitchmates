@@ -21,7 +21,7 @@ const SignInCard = ({setState}: signInCardProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     return (
-        <Card className="w-full p-8">
+        <Card className="w-full h-full p-8 items-center">
             <CardHeader className="px-0 pt-0">
                <CardTitle>
                 Login to Continue
@@ -63,7 +63,7 @@ const SignInCard = ({setState}: signInCardProps) => {
                         variant="outline"
                         size="lg"
                         disabled={false}
-                        onClick={()=>{}}
+                        onClick={()=>{handleProviderSignIn('google')}}
                         className="w-full relative"
                     >
                         <FcGoogle className=" size-5 absolute left-4 top-1/2 -translate-y-1/2 text-2xl" />
