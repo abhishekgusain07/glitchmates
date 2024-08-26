@@ -17,7 +17,7 @@ export const current = query({
                 q.eq("workspaceId", args.workspaceId)
                  .eq("userId", userId)
             )
-            .collect();
+            .unique();
         if(!member) {
             return null;
         }
