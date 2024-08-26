@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useCreateWorkSpace } from "../api/use-create-workspace";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 export const CreateWorkspaceModal = () => {
@@ -24,6 +25,7 @@ export const CreateWorkspaceModal = () => {
             name
         }, {
             onSuccess: (id) => {
+                toast.success("Workspace created");
                 router.push(`/workspace/${id}`);
                 handleClose();
             }
@@ -46,7 +48,7 @@ export const CreateWorkspaceModal = () => {
                         disabled={isPending}
                     />
                     <div className="flex justify-end">
-                        <Button className="w-full" disabled={false}>
+                        <Button className="w-full" disabled={isPending}>
                             Create Workspace
                         </Button>
                     </div>

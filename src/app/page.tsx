@@ -12,7 +12,7 @@ export default function Home() {
 
   const {signOut} = useAuthActions()
   const {data, isLoading} = useGetWorkspaces();
-
+  
   const workspaceId = useMemo(() => data?.[0]?._id, [data]);
   
   useEffect(() => {
