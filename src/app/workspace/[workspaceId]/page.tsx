@@ -9,7 +9,7 @@ const WorkspacePage = () => {
     const {data, isLoading} = useGetWorkspace({id: workspaceId});
     return (
         <div>
-            <h1>Data: {JSON.stringify(data)}</h1>
+            WorkspacePageId page here
         </div>
     )
 }
