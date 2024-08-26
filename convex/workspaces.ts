@@ -29,3 +29,20 @@ export const create = mutation({
         return workspaceId;
     }
 })
+
+export const getById = query({
+    args: {
+        id: v.id("workspaces")
+    },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        if(!userId){
+            throw new Error("Not authenticated");
+        }
+        const workspace = await ctx.db.get(args.id);
+        if(!workspace){
+            throw new Error("Workspace not found");
+        }
+        return workspace;
+    }
+})
