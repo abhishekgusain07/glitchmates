@@ -10,6 +10,7 @@ import { SignInFlow } from "../types";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { TriangleAlert } from "lucide-react";
+import { PasswordInput } from "@/components/ui/password-input";
 
 interface signInCardProps {
     setState: (state: SignInFlow) => void;
@@ -42,15 +43,12 @@ const SignInCard = ({setState}: signInCardProps) => {
     }
     
     return (
-        <Card className="w-full h-full p-8 items-center">
-            <CardHeader className="px-0 pt-0">
-               <CardTitle>
-                Login to Continue
-                </CardTitle> 
-                <CardDescription>
-                Use your email or other services to login
-            </CardDescription>
-            </CardHeader>
+        <div className="lg:px-8">
+            <div className="flex justify-center items-center h-screen">
+            <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+          <h1 className="text-2xl font-semibold tracking-tight text-center">
+            Welcome Back
+          </h1>
             {
                 !!error && (
                     <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
@@ -59,32 +57,36 @@ const SignInCard = ({setState}: signInCardProps) => {
                     </div>
                 )
             }
-            <CardContent className="space-y-5 px-0 pb-0">
                 <form className="space-y-2.5" onSubmit={onPasswordSignIn}>
+                    <div className="grid gap-5">
                     <Input 
                         disabled={pending}
                         value={email}
-                        placeholder="Email"
+                        placeholder="name@example.com"
                         onChange={(e)=>{setEmail(e.target.value)}}
                         type="email"
+                        autoCapitalize="none"
+                        autoComplete="email"
+                        autoCorrect="off"
+                        name="email"
                         required={true}
                     />
-                    <Input 
+                    
+                    <PasswordInput 
                         disabled={pending}
                         value={password}
                         placeholder="Password"
                         onChange={(e)=>{setPassword(e.target.value)}}
                         type="password"
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        autoComplete="current-password"
                         required={true}
                     />
-                    <Button 
-                        type="submit"
-                        className="w-full"
-                        size="lg"
-                        disabled={pending}
-                    >
-                        Continue
+                    <Button loading={pending} className="w-full h-10">
+                        Sign in
                     </Button>
+                    </div>
                 </form>
                 <Separator/>
                 <div className="flex flex-col gap-y-2.5">
@@ -109,14 +111,17 @@ const SignInCard = ({setState}: signInCardProps) => {
                         Continue with Github
                     </Button>
                 </div>
+                <div className="flex justify-center text-md">
                 <p className="text-xs text-muted-foreground">
                     Don&apos;t have an account? <span 
                     onClick={()=>setState('signUp')}
-                    className="text-sky-700 hover:underline cursor-pointer"
-                    >Sign up</span>
+                    className="text-sky-700 hover:underline cursor-pointer" 
+                    >Sign Up</span>
                 </p>
-            </CardContent>
-        </Card>
+                </div>
+                </div>
+                </div>
+            </div>
     )
 }
 
