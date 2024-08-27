@@ -8,7 +8,6 @@ import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useEffect, useMemo } from "react";
 import { Loader, TriangleAlert } from "lucide-react";
- 
 
 const WorkspacePage = () => {
     const workspaceId = useWorkspaceId();

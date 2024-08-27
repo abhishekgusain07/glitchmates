@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { Modals } from "@/components/modals";
@@ -28,6 +29,7 @@ export default function RootLayout({
             <Toaster />
             <Modals />
             {children}
+            <SpeedInsights />
             </JotaiProvider>
           </ConvexClientProvider>
           </body>
