@@ -10,7 +10,7 @@ import { Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import VerificationInput, { VerificationInputProps } from "react-verification-input"
 import { toast } from "sonner";
 
@@ -31,6 +31,16 @@ const JoinPage = () => {
             }
         });
     }
+
+    const isMember = useMemo(() => {
+        return data?.isMember
+    }, [data?.isMember]);
+      
+    useEffect(() => {
+        if(isMember){
+            router.replace(`/workspace/${workspaceId}`);
+        }  
+    }, [isMember, router, workspaceId]);
     if(isLoading){
         return (
             <div className="h-full flex items-center justify-center">
