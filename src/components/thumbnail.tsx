@@ -15,13 +15,26 @@ interface ThumbnailProps {
 const Thumbnail = ({url}: ThumbnailProps) => {
     if(!url)return null
     return (
-        <div className="relative overflow-hidden max-w-[360px] border rounded-lg my-2 cursor-zoom-in">
-            <img
-                src={url || ""}
-                alt="message"
-                className="rounded-md object-cover size-full"
-            />
-        </div>
+        <Dialog>
+            <DialogTrigger>
+            <div className="relative overflow-hidden max-w-[360px] border rounded-lg my-2 cursor-zoom-in">
+                <img
+                    src={url || ""}
+                    alt="message"
+                    className="rounded-md object-cover size-full"
+                />
+            </div>
+            </DialogTrigger>
+            <DialogContent className="max-w-[800px] border-none bg-transparent p-0 shadow-none flex items-center justify-center">
+                <img
+                    src={url || ""}
+                    alt="message"
+                    className="rounded-md object-cover size-full h-[90vh] w-auto"
+                />
+            </DialogContent>
+        </Dialog>
+            
+                
     )
 }
 
