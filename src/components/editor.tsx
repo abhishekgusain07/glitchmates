@@ -5,6 +5,7 @@ import { type MutableRefObject, useEffect, useLayoutEffect, useRef, useState } f
 
 import { Button } from "./ui/button";
 import { Hint } from "./hint";
+import EmojiPopover from "./emoji-popover";
 
 import "quill/dist/quill.snow.css";
 import { ImageIcon, Smile } from "lucide-react";
@@ -138,6 +139,15 @@ const Editor = ({
             toolBarElement.classList.toggle("hidden");
         }
     }
+
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const onEmojiSelect = (emoji: any) => {
+        const quill = quillRef.current;
+        if(quill){
+            quill.insertText(quill?.getSelection()?.index || 0, emoji.native);
+        }
+    }
+
     const isEmpty = text.replace(/<(.|\n)*?>/g,"").trim().length === 0;   
 
     return (
@@ -155,16 +165,17 @@ const Editor = ({
                         <PiTextAa className="size-4"/>
                     </Button>
                     </Hint>
-                    <Hint label="emoji">
+                    <EmojiPopover
+                        onEmojiSelect={onEmojiSelect}
+                    >
                     <Button
                         variant="ghost"
                         size="iconSm"
                         disabled={disabled}
-                        onClick={()=>{}}
                     >
                         <Smile className="size-4"/>
                     </Button>
-                    </Hint>
+                    </EmojiPopover>
                     {
                         variant === "create" && (
                             <Hint label="image">
@@ -216,9 +227,14 @@ const Editor = ({
                     }
                     
                 </div>
-                <p className="p-2 text-[10px] text-muted-foreground flex justify-end">
-                    <strong>Shift + Return</strong> to add a new line
-                </p>
+                {
+                    variant === "create" && (
+                        <p className={cn("p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition", 
+                            !isEmpty && "opacity-100")}>
+                            <strong>Return</strong> to add a new line
+                        </p>
+                    )
+                }
             </div>
         </div>
     )
