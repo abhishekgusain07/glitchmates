@@ -24,6 +24,22 @@ const schema = defineSchema({
         workspaceId: v.id("workspaces"),
     })
         .index("by_workspace_id", ['workspaceId']),
+
+    messages: defineTable({
+        channelId: v.optional(v.id("channels")),
+        body: v.string(),
+        // The v.id("_storage") suggests that the image is stored in Convex's storage system,
+        // and we're referencing it by its storage ID.
+        memberId: v.id("members"),
+        workspaceId: v.id("workspaces"),
+        image: v.optional(v.id("_storage")),
+        //can be reply to a message
+        parentMessageId: v.optional(v.id("messages")),
+        updatedAt: v.number(),
+
+        //todo conversationalId
+    })
+    
 });
 
 export default schema;
