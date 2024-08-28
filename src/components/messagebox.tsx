@@ -77,7 +77,6 @@ export const Message = ({
                                 </span>
                             ): null
                         }
-                        {image}
                     </div> 
                 </div>
             </div>
