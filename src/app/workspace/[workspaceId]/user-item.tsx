@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Id } from "../../../../convex/_generated/dataModel"
+import type { Id } from "../../../../convex/_generated/dataModel"
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
