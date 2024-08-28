@@ -16,13 +16,13 @@ export default function Home() {
   const workspaceId = useMemo(() => data?.[0]?._id, [data]);
   
   useEffect(() => {
-    if(isLoading) return;
-    if(workspaceId) {
+    if (isLoading) return;
+    if (workspaceId) {
       router.replace(`/workspace/${workspaceId}`);
-    } else if(!open) {
+    } else if (!open) {
       setOpen(true);
     }
-  }, [isLoading, workspaceId, open, setOpen]);
+  }, [isLoading, workspaceId, open, setOpen, router]);
 
   return (
     <div>

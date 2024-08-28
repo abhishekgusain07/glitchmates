@@ -20,7 +20,7 @@ type EditorValue = {
 }
 interface EditorProps {
     variant: EditorVariant;
-    onSubmit: ({image, body}: EditorValue) => void;
+    onSubmit: ({image, body}:EditorValue) => void;
     onCancel?: () => void;
     placeholder?: string;
     defaultValue?: Delta | Op[];
