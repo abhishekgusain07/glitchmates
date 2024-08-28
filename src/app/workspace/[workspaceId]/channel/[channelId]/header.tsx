@@ -24,6 +24,7 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
 import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 interface ChannelHeaderProps {
     title: string;
@@ -37,6 +38,7 @@ export const ChannelHeader = ({title}: ChannelHeaderProps) => {
     const [editOpen, setEditOpen] = useState<boolean>(false);
     const [value, setValue] = useState<string>(title);
 
+    const {data: member} = useCurrentMember({workspaceId})
     const {mutate: updateChannel, isPending: isUpdatingChannel} = useUpdateChannel()
     const {mutate: removeChannel , isPending: isRemovingChannel} = useRemoveChannel()
 
@@ -45,6 +47,13 @@ export const ChannelHeader = ({title}: ChannelHeaderProps) => {
         "You are about to delete this channel. This action is irreversible",
     );
 
+    const handleEditOpen = () => {
+        if(member?.role === "member") {
+            toast.error("You are not allowed to rename this channel");
+            return;
+        }
+        setEditOpen(true);
+    }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         updateChannel({id: channelId, name: value},{
@@ -102,7 +111,7 @@ export const ChannelHeader = ({title}: ChannelHeaderProps) => {
                         </DialogTitle>
                     </DialogHeader>
                     <div className="px-4 pb-4 flex flex-col gap-y-2">
-                        <Dialog open={editOpen} onOpenChange={setEditOpen}>
+                        <Dialog open={editOpen} onOpenChange={handleEditOpen}>
                             <DialogTrigger asChild>
                                 <div className="px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50">
                                     <div className="flex items-center justify-between">
