@@ -1,10 +1,12 @@
 "use client"
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaChevronDown } from "react-icons/fa";
+import { TrashIcon } from "lucide-react";
+import { toast } from "sonner";
 
-interface ChannelHeaderProps {
-    title: string;
-}
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogClose,
@@ -15,20 +17,70 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { TrashIcon } from "lucide-react";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
+
+import { useChannelId } from "@/hooks/use-channel-id";
+import { useConfirm } from "@/hooks/use-confirm";
+
+import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
+import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
+interface ChannelHeaderProps {
+    title: string;
+}
 
 export const ChannelHeader = ({title}: ChannelHeaderProps) => {
+    const router = useRouter();
+    const channelId = useChannelId()
+    const workspaceId = useWorkspaceId()
+
     const [editOpen, setEditOpen] = useState<boolean>(false);
     const [value, setValue] = useState<string>(title);
 
+    const {mutate: updateChannel, isPending: isUpdatingChannel} = useUpdateChannel()
+    const {mutate: removeChannel , isPending: isRemovingChannel} = useRemoveChannel()
+
+    const [ConfirmDialog, confirm] = useConfirm(
+        "Delete This Channel?",
+        "You are about to delete this channel. This action is irreversible",
+    );
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        updateChannel({id: channelId, name: value},{
+            onSuccess: () => {
+                toast.success("Channel Updated");
+                setEditOpen(false);
+            },
+            onError: (error) => {
+                toast.error("Failed to update channel");
+            }
+        })
+    }
+
+    const handleDelete = async() => {
+        const ok = await confirm()
+        if(!ok)return
+
+        removeChannel({id: channelId},{
+            onSuccess: () => {
+                toast.success("Channel deleted");
+                router.push(`/workspace/${workspaceId}`)
+                
+            },
+            onError: (error) => {
+                toast.error("Failed to delete channel");
+            }
+        })
+    }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
         setValue(value);
     }
 
     return (
+        <>
+        <ConfirmDialog />
         <div className="bg-white border-b h-[49px] flex items-center px-4 overflow-hidden">
             <Dialog>
                 <DialogTrigger asChild>
@@ -70,10 +122,10 @@ export const ChannelHeader = ({title}: ChannelHeaderProps) => {
                                         Rename channel
                                     </DialogTitle>
                                 </DialogHeader>
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <Input 
                                         value={value}
-                                        disabled={false}
+                                        disabled={isUpdatingChannel}
                                         onChange={handleChange}
                                         placeholder="e.g. plan-trip"
                                         autoFocus
@@ -86,12 +138,12 @@ export const ChannelHeader = ({title}: ChannelHeaderProps) => {
                                         <DialogClose asChild>
                                             <Button 
                                                 variant="outline"
-                                                disabled={false}
+                                                disabled={isUpdatingChannel}
                                             >
                                                 cancel
                                             </Button>
                                         </DialogClose>
-                                        <Button disabled={false}>
+                                        <Button disabled={isUpdatingChannel}>
                                             save
                                         </Button>
                                     </DialogFooter>
@@ -100,7 +152,10 @@ export const ChannelHeader = ({title}: ChannelHeaderProps) => {
                         </Dialog>
                         <button 
                         type="button"
-                        className="flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 text-rose-600 font-semibold">
+                        className="flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 text-rose-600 font-semibold"
+                        onClick={handleDelete}
+                        disabled={isRemovingChannel}
+                        >
                             <TrashIcon className="size-4" />
                             <p className="text-sm font-semibold">Delete channel</p>
                         </button>
@@ -108,5 +163,6 @@ export const ChannelHeader = ({title}: ChannelHeaderProps) => {
                 </DialogContent>
             </Dialog>
         </div>
+        </>
     )
 }
