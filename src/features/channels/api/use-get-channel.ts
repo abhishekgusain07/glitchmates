@@ -4,12 +4,12 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import type { Id } from "../../../../convex/_generated/dataModel";
 
 interface UseGetChannelsProps {
-    workspaceId: Id<"workspaces">;
+    id: Id<"channels">;
 }
  
-export const useGetChannels = ({workspaceId}: UseGetChannelsProps) => {
-    const data = useQuery(api.channels.get, {
-        workspaceId
+export const useGetChannel = ({id}: UseGetChannelsProps) => {
+    const data = useQuery(api.channels.getById, {
+        id
     })
     const isLoading = data === undefined;
     return {

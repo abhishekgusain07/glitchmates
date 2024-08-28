@@ -36,14 +36,14 @@ const WorkspacePage = () => {
         }
     },[WorkspaceLoading, ChannelsLoading, workspace, channelId, router, workspaceId, open, setOpen, members, MembersLoading, isAdmin])
 
-    if(WorkspaceLoading || ChannelsLoading){
+    if(WorkspaceLoading || ChannelsLoading || MembersLoading){
         return (
             <div className="h-full flex flex-1 justify-center items-center gap-2">
                 <Loader className="size-6 animate-spin text-muted-foreground" />
             </div>
         )
     }
-    if(!workspace){
+    if(!workspace || !members){
         return (
             <div className="h-full flex flex-col flex-1 justify-center items-center gap-2">
                 <TriangleAlert className="size-6 animate-spin text-muted-foreground" />
@@ -53,7 +53,7 @@ const WorkspacePage = () => {
     }
    return (
     <div className="h-full flex flex-col flex-1 justify-center items-enter gap-2">
-        <TriangleAlert className="size-6 animate-spin text-muted-foreground" />
+        <TriangleAlert className="size-6 text-muted-foreground" />
         <span className="text-sm text-muted-foreground">
             No channel found
         </span>
