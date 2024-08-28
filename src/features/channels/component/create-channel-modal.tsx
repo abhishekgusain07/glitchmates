@@ -40,7 +40,6 @@ export const CreateChannelModal = () => {
         e.preventDefault();
         mutate({name, workspaceId}, {
             onSuccess: (id) => {
-                //Todo: Redirect to the new channel page
                 toast.success("Channel created successfully");
                 router.push(`/workspace/${workspaceId}/channel/${id}`);
                 handleClose();

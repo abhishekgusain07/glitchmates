@@ -144,7 +144,6 @@ export const remove = mutation({
 
         //Todo: Delete all messages in the channel
 
-        
         await ctx.db.delete(args.id);
         
         return args.id;

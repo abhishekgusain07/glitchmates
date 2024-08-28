@@ -39,8 +39,7 @@ export const create = mutation({
         const userId = await auth.getUserId(ctx);
         if(!userId){
             throw new Error("Not authenticated");
-        }
-        //Todo: proper method to generate join code
+        } 
         const joinCode = generateJoinCode();
 
         const workspaceId = await ctx.db.insert("workspaces", {
@@ -141,7 +140,6 @@ export const remove = mutation({
             throw new Error("Not authorized");
         }
 
-        //Todo: delete all members of workspace
         const [members] = await Promise.all([
             ctx.db
             .query("members")
