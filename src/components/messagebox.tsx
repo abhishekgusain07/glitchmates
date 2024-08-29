@@ -202,37 +202,37 @@ export const Message = ({
                             </div>
                         ) : (
                             <div className="flex flex-col w-full overflow-hidden">
-                        <div className="text-sm">
-                            <button
-                                type="button"
-                                className="font-bold text-primary hover:underline"
-                                onClick={() => {
-                                    
-                                }}
-                            >
-                                {authorName}
-                            </button>
-                            <span>&nbsp;&nbsp;</span>
-                            <Hint label={formatFullDate(new Date(createdAt))}>
-                            <button className="text-xs text-muted-foreground hover:underline" type="button">
-                                {format(new Date(createdAt), "hh:mm a")}
-                            </button>
-                            </Hint>
-                        </div>
-                        <Renderer value={body}/>
-                        <Thumbnail url={image}/>
-                        {
-                            updatedAt ? (
-                                <span className="text-xs text-muted-foreground">
-                                    (edited)
-                                </span>
-                            ): null
-                        }
-                        <Reactions 
-                            data={reactions}
-                            onChange={handleToggleReaction}
-                        />
-                    </div>
+                                <div className="text-sm">
+                                    <button
+                                        type="button"
+                                        className="font-bold text-primary hover:underline"
+                                        onClick={() => {
+                                            
+                                        }}
+                                    >
+                                        {authorName}
+                                    </button>
+                                    <span>&nbsp;&nbsp;</span>
+                                    <Hint label={formatFullDate(new Date(createdAt))}>
+                                        <button className="text-xs text-muted-foreground hover:underline" type="button">
+                                            {format(new Date(createdAt), "hh:mm a")}
+                                        </button>
+                                    </Hint>
+                                </div>
+                                <Renderer value={body}/>
+                                <Thumbnail url={image}/>
+                                {
+                                    updatedAt ? (
+                                        <span className="text-xs text-muted-foreground">
+                                            (edited)
+                                        </span>
+                                    ): null
+                                }
+                                <Reactions 
+                                    data={reactions}
+                                    onChange={handleToggleReaction}
+                                />
+                            </div>
                 )} 
                 </div>
                 {
