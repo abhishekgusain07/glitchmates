@@ -12,6 +12,7 @@ import { ImageIcon, Smile, XIcon } from "lucide-react";
 import type { Delta, Op } from "quill/core";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { EmojiClickData } from "emoji-picker-react";
 
 type EditorVariant = "create" | "update";
 type EditorValue = {
@@ -152,11 +153,11 @@ const Editor = ({
         }
     }
 
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    const onEmojiSelect = (emoji: any) => {
+
+    const onEmojiSelect = (emoji: string) => {
         const quill = quillRef.current;
         if(quill){
-            quill.insertText(quill?.getSelection()?.index || 0, emoji.native);
+            quill.insertText(quill?.getSelection()?.index || 0, emoji);
         }
     }
 

@@ -43,7 +43,7 @@ const Reactions: React.FC<ReactionsProps> = ({data, onChange}) => {
             ))
         }
         <EmojiPopover
-            onEmojiSelect={(emoji) => onChange(emoji.native)}
+            onEmojiSelect={(emoji) => onChange(emoji)}
             hint="Add a reaction"
         >
             <button

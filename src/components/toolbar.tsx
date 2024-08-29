@@ -28,7 +28,7 @@ const Toolbar = ({
                 <EmojiPopover
                     hint="Add reaction"
                     onEmojiSelect={(value) => {
-                        handleReaction(value.native)
+                        handleReaction(value)
                     }}
                 >
                     <Button
