@@ -32,7 +32,7 @@ const Editor = ({
     variant = "create",
     onSubmit,
     onCancel,
-    placeholder = "Write something...",
+    placeholder = "Write Something...",
     defaultValue = [],
     disabled = false,
     innerRef  
@@ -285,7 +285,8 @@ const Editor = ({
                     }
                     
                 </div>
-                {
+            </div>
+            {
                     variant === "create" && (
                         <p className={cn("p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition", 
                             !isEmpty && "opacity-100")}>
@@ -293,7 +294,6 @@ const Editor = ({
                         </p>
                     )
                 }
-            </div>
         </div>
     )
 }

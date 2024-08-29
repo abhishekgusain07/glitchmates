@@ -106,22 +106,22 @@ export const MessageList = ({
             }
             <div 
                 className="h-1 "
-                ref={(el) => {
-                    if(el) {
-                        const observer = new IntersectionObserver(
-                            ([entry]) => {
-                                if(entry.isIntersecting && canLoadMore) {
+                ref={
+                    (el) => {
+                        if(el) {
+                            const observer = new IntersectionObserver(
+                                ([entry]) => {
+                                    if(entry.isIntersecting && canLoadMore) {
                                     loadMore();
                                 }
                             },
-                            {
-                                threshold: 1.0,
-                            }
-                        );
+                            {threshold: 1.0}
+                            );
                         observer.observe(el);
                         return () => observer.disconnect();
+                        }
                     }
-                }}
+                }
             />
             {
                 isLoadingMore && (

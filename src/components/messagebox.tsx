@@ -12,6 +12,7 @@ import { useRemoveMessage } from "@/features/messages/api/use-remove-message";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/features/reactions/use-toggle-reaction";
 import Reactions from "./reactions";
+import { usePanel } from "@/hooks/use-panel";
 
 const Renderer = dynamic(() => import("@/components/renderer"), {
     ssr: false,
@@ -69,6 +70,8 @@ export const Message = ({
     threadTimeStamp,
 }: MessageProps) => {
     
+    const {parentMessageId, onOpenMessage, onCloseMessage} = usePanel()
+
     const [ConfirmDialog, confirm] = useConfirm(
         'Delete Message',
         'Are you sure you want to delete this message? this action cannot be undone.'
@@ -99,8 +102,9 @@ export const Message = ({
         removeMessage({id},{
             onSuccess: () => {
                 toast.success("Message deleted")
-
-                //Todo: Close thread if it's open
+                if(parentMessageId === id){
+                    onCloseMessage()
+                }
             },
             onError: (error) => {
                 toast.error("Failed to remove message");
@@ -165,7 +169,7 @@ export const Message = ({
                                 setEditingId(id)
                             }}
                             handleDelete={handleRemoveMessage}
-                            handleThread={() => {}}
+                            handleThread={() => {onOpenMessage(id)}}
                             hideThreadButton={hideThreadButton}
                             handleReaction={handleToggleReaction}
                         />
@@ -244,7 +248,7 @@ export const Message = ({
                                 setEditingId(id)
                             }}
                             handleDelete={handleRemoveMessage}
-                            handleThread={() => {}}
+                            handleThread={() => onOpenMessage(id)}
                             hideThreadButton={hideThreadButton}
                             handleReaction={handleToggleReaction}
                         />
