@@ -13,6 +13,7 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/features/reactions/use-toggle-reaction";
 import Reactions from "./reactions";
 import { usePanel } from "@/hooks/use-panel";
+import ThreadBar from "./threadbar";
 
 const Renderer = dynamic(() => import("@/components/renderer"), {
     ssr: false,
@@ -44,6 +45,7 @@ interface MessageProps {
     threadCount?: number;
     threadImage?: string;
     threadTimeStamp?: number;
+    threadName?: string;
 }
 
 const formatFullDate = (date: Date) => {
@@ -68,9 +70,10 @@ export const Message = ({
     threadCount,
     threadImage,
     threadTimeStamp,
+    threadName,
 }: MessageProps) => {
     
-    const {parentMessageId, onOpenMessage, onCloseMessage} = usePanel()
+    const {parentMessageId, onOpenMessage, onOpenProfile, profileMemberId,onCloseMessage} = usePanel()
 
     const [ConfirmDialog, confirm] = useConfirm(
         'Delete Message',
@@ -82,7 +85,7 @@ export const Message = ({
     const {mutate: toggleReaction, isPending: isTogglingReaction} = useToggleReaction();
 
 
-    const isPending = isUpdatingMessage || isRemovingMessage;
+    const isPending = isUpdatingMessage || isRemovingMessage || isTogglingReaction;
 
     const handleUpdateMessage = ({body}: {body:string}) => {
         updateMessage({id, body},{
@@ -156,6 +159,13 @@ export const Message = ({
                                 data={reactions}
                                 onChange={handleToggleReaction}
                             />
+                            <ThreadBar
+                                count={threadCount}
+                                image={threadImage}
+                                name={threadName}
+                                timeStamp={threadTimeStamp}
+                                onClick={() => onOpenMessage(id)}
+                            />
                         </div>
                     )
                 }
@@ -185,7 +195,11 @@ export const Message = ({
         isRemovingMessage && "bg-rose-500/50 transform transition-all duration-300 scale-y-0 origin-bottom")}>
             <ConfirmDialog/>
                 <div className="flex items-start gap-2">
-                    <button type="button">
+                    <button type="button"
+                        onClick={() => {
+                            onOpenProfile(memeberId)
+                        }}
+                    >
                         <Avatar >
                             <AvatarImage src={authorImage} className="rounded-md"/>
                             <AvatarFallback>
@@ -211,7 +225,7 @@ export const Message = ({
                                         type="button"
                                         className="font-bold text-primary hover:underline"
                                         onClick={() => {
-                                            
+                                            onOpenProfile(memeberId)
                                         }}
                                     >
                                         {authorName}
@@ -235,6 +249,13 @@ export const Message = ({
                                 <Reactions 
                                     data={reactions}
                                     onChange={handleToggleReaction}
+                                />
+                                <ThreadBar
+                                    count={threadCount}
+                                    image={threadImage}
+                                    name={threadName}
+                                    timeStamp={threadTimeStamp}
+                                    onClick={() => onOpenMessage(id)}
                                 />
                             </div>
                 )} 

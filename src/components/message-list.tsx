@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { Loader } from "lucide-react";
+import { ConversationHero } from "./conversationHero";
 
 
 const TIME_THRESHOLD = 5;
@@ -96,6 +97,7 @@ export const MessageList = ({
                                             isCompact={isCompact}
                                             setEditingId={setEditingId}
                                             hideThreadButton={variant === "thread"}
+                                            threadName={message.threadName}
                                         />
                                     )
                                 })
@@ -139,6 +141,14 @@ export const MessageList = ({
                     <ChannelHero
                         channelName={channelName}
                         channelCreationTime={channelCreationTime}
+                    />
+                )
+            }
+            {
+                variant === "conversation" && (
+                    <ConversationHero
+                        memberName={memberName}
+                        memberImag={memberImag}
                     />
                 )
             }

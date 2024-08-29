@@ -5,14 +5,10 @@ import { useCallback, useMemo, useState } from "react";
 import type { Doc, Id } from "../../../../convex/_generated/dataModel";
 
 type RequestType = {
-        body: string,
         workspaceId: Id<"workspaces">,
-        image?: Id<"_storage">,
-        channelId ?: Id<"channels">,
-        parentMessageId ?: Id<"messages">,
-        conversationId?: Id<"conversations">
+        memberId: Id<"members">
 };
-type ResponseType = Id <"messages"> | null;
+type ResponseType = Id<"conversations"> | null;
 
 type Options = {
     onSuccess?: (data: ResponseType) => void;
@@ -20,7 +16,7 @@ type Options = {
     onSettled?: () => void;
     throwError?: boolean;
 }
-export const useCreateMessage = (options?: Options) => {
+export const useCreateOrGetConversation = (options?: Options) => {
     const [data, setData] = useState<ResponseType>(null);
     const [error, setError] = useState<Error | null>(null);
     const [status, setStatus] = useState<null | "pending" | "success" | "error" | "settled">(null);
@@ -30,7 +26,7 @@ export const useCreateMessage = (options?: Options) => {
     const isError = useMemo(() => status === "error", [status]);
     const isSettled = useMemo(() => status === "settled", [status]);
 
-    const mutation = useMutation(api.messages.create);
+    const mutation = useMutation(api.conversations.createOrGet);
 
     const mutate = useCallback(async(values:RequestType, options?: Options) => {
         try {

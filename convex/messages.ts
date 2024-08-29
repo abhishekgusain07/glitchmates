@@ -18,7 +18,8 @@ const popluateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
         return {
             count: 0,
             image: undefined,
-            timestamp: 0
+            timestamp: 0,
+            name: "",
         }
     }
     const lastMessage = messages[messages.length - 1]
@@ -27,7 +28,8 @@ const popluateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
         return {
             count: 0,
             image: undefined,
-            timestamp: 0
+            timestamp: 0,
+            name: "",
         };
     }
     const lastMessageUser = await populateUser(ctx, lastMessageMember.userId)
@@ -36,6 +38,7 @@ const popluateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
         count: messages.length,
         image: lastMessageUser?.image,
         timestamp: lastMessage._creationTime,
+        name: lastMessageUser?.name,
     }
 }
 
@@ -145,7 +148,8 @@ export const get = query({
                         threadCount: thread.count,
                         threadImag: thread.image,
                         threadTimestamp: thread.timestamp,
-                        member
+                        member,
+                        threadName: thread.name,
                     }
                 }))
             ).filter((message): message is NonNullable<typeof message> => message !== null)
@@ -160,7 +164,7 @@ export const create = mutation({
         image: v.optional(v.id("_storage")),
         channelId: v.optional(v.id("channels")),
         parentMessageId: v.optional(v.id("messages")),
-        conversationalId: v.optional(v.id("conversations")),
+        conversationId: v.optional(v.id("conversations")),
     },
     handler: async (ctx, args) => {
         const userId = await auth.getUserId(ctx)
@@ -175,17 +179,17 @@ export const create = mutation({
             throw new Error('Member not found')
         }
 
-        let _conversationalId = args.conversationalId
+        let _conversationId = args.conversationId
         
         // only possible when we are replying inside a thread 1 on 1 chat
-        if(!args.conversationalId && !args.channelId && args.parentMessageId) {
+        if(!args.conversationId && !args.channelId && args.parentMessageId) {
             const parentMessage = await ctx.db.get(args.parentMessageId)
             
             if(!parentMessage) {
                 throw new Error('Parent message not found')
             }
 
-            _conversationalId = parentMessage.conversationId
+            _conversationId = parentMessage.conversationId
             
         }
 
@@ -198,7 +202,7 @@ export const create = mutation({
             body: args.body,
             image: args.image,
             channelId: args.channelId,
-            conversationId: _conversationalId,
+            conversationId: _conversationId,
             parentMessageId: args.parentMessageId,
         })
 
@@ -275,7 +279,7 @@ export const remove = mutation({
         return args.id;
     }
 })
-
+ 
 export const getById = query({
     args: {
         id: v.id("messages"),

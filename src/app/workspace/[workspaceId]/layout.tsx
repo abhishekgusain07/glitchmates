@@ -12,6 +12,8 @@ import { usePanel } from "@/hooks/use-panel";
 import { Loader } from "lucide-react";
 import type { Id } from "../../../../convex/_generated/dataModel";
 import { Thread } from "@/features/messages/components/thread";
+import { useProfileMemberId } from "@/features/members/store/use-profile-member-id";
+import { Profile } from "@/features/members/components/profile";
 
 
 interface WorkSpaceIdLayoutProps {
@@ -19,9 +21,9 @@ interface WorkSpaceIdLayoutProps {
 }
 const WorkspaceLayout = ({children}: WorkSpaceIdLayoutProps) => { 
 
-    const {parentMessageId, onOpenMessage, onCloseMessage} = usePanel()
-    const showPanel = !!parentMessageId;
-
+    const {parentMessageId, profileMemberId, onOpenMessage, onCloseMessage, onOpenProfile} = usePanel()
+    
+    const showPanel = !!parentMessageId || !!profileMemberId;
 
     return (
         <div className="h-full">
@@ -43,6 +45,7 @@ const WorkspaceLayout = ({children}: WorkSpaceIdLayoutProps) => {
                     <ResizableHandle withHandle/>
                     <ResizablePanel
                         minSize={20}
+                        defaultSize={80}
                     >
                     {children}
                     </ResizablePanel>
@@ -55,19 +58,24 @@ const WorkspaceLayout = ({children}: WorkSpaceIdLayoutProps) => {
                                     minSize={20}
                                 >
                                    {
-                                    !parentMessageId ? (
+                                    parentMessageId ? (
+                                        <Thread 
+                                            messageId={parentMessageId as Id<'messages'>}
+                                            onClose={onCloseMessage}
+                                        />
+                                    ) : profileMemberId ? (
+                                        <Profile 
+                                            memberId={profileMemberId as Id<'members'>}
+                                            onClose={onCloseMessage}
+                                        />
+                                    ) : (
                                         <div className="flex h-full items-center justify-center">
                                             <Loader 
                                                 className="size-5 animate-spin text-muted-foreground"
                                             />
                                         </div>
-                                    ):(
-                                        <Thread 
-                                            messageId={parentMessageId as Id<'messages'>}
-                                            onClose={onCloseMessage}
-                                        />
                                     )
-                                   }  
+                                   }
                                 </ResizablePanel>
                             </>
                         )

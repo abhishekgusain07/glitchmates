@@ -24,6 +24,7 @@
     "@vercel/speed-insights": "^1.0.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "1.0.0",
     "convex": "^1.14.4",
     "date-fns": "^3.6.0",
     "jotai": "^2.9.3",
