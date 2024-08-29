@@ -4,7 +4,7 @@ import type{ Id } from "../../../../convex/_generated/dataModel";
 import { api } from "../../../../convex/_generated/api";
 
 
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 10;
 interface UseGetMessagesProps {
     channelId?: Id<"channels">;
     conversationId?: Id<"conversations">;
