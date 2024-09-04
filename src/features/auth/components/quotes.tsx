@@ -14,7 +14,7 @@ export const Quotes: React.FC<QuotesProps> = () => {
         </div>
         <blockquote className="space-y-3 ">
           <p className="text-2xl italic">
-            Empowering people through seamless learning and collaboration
+            Empowering Developers through seamless learning and collaboration
           </p>
           {/* <footer className="pt-3 text-md">
             Jeff Bezos <strong>Founder</strong>

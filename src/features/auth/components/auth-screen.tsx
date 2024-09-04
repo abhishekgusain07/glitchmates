@@ -11,7 +11,7 @@ export const AuthScreen = () => {
 
     const [state, setState] = useState<SignInFlow>('signIn');
     return (
-        <div className="grid h-full grid-cols-2">
+        <div className="grid h-full grid-cols-1 lg:grid-cols-2">
             <Head>
                 <title>
                     {
@@ -19,10 +19,14 @@ export const AuthScreen = () => {
                     }
                 </title>
             </Head>
-            {
-                state === 'signIn' ? <SignInCard setState={setState}/> : <SignUpCard setState={setState}/>
-            }
-            <Quotes />
+            <div className="order-2 w-[80vw] mx-auto md:w-full lg:order-1">
+                {
+                    state === 'signIn' ? <SignInCard setState={setState}/> : <SignUpCard setState={setState}/>
+                }
+            </div>
+            <div className="hidden lg:block order-1 lg:order-2">
+                <Quotes />
+            </div>
         </div>
     )
 }
