@@ -34,7 +34,7 @@ const WorkspaceHeader = ({
                 setOpen={setPrefrencesOpen} 
                 initialValue={workspace.name} 
             />
-            <div className="flex bg-[#5E2C5F] h-[49px] gap-0.5 items-center justify-between">
+            <div className="flex bg-bgCustom2 h-[49px] gap-0.5 items-center justify-between">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button

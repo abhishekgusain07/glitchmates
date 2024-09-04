@@ -15,7 +15,7 @@ const Sidebar = () => {
     const pathname = usePathname();
     if (!isClient) return <Loader className=" size-5 my-auto animate-spin" />;
     return (
-        <aside className="bg-[#481349] w-[70px] flex flex-col  items-center gap-y-4 pt-[9px] pb-[4px] h-full">
+        <aside className="bg-bgCustom2 w-[70px] flex flex-col  items-center gap-y-4 pt-[9px] pb-[4px] h-full">
             <WorkspaceSwitcher />
             <SidebarButton icon={Home} label="Home" isActive={pathname.includes('/workspace')}/>
             <SidebarButton icon={MessageSquare} label="DMs" />

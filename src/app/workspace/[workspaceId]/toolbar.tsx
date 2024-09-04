@@ -43,7 +43,7 @@ const Toolbar = () => {
         router.push(`/workspace/${workspaceId}/member/${memberId}`);
     }
     return (
-        <div className="bg-[#481349] flex items-center justify-between h-10 p-1.5">
+        <div className="bg-bgCustom2 flex items-center justify-between h-10 p-1.5">
             <div className="flex-1" />
             <div className="min-w-[280px] max-[642px] grow-[2] shrink">
                 <Button 
