@@ -116,6 +116,11 @@ const SignInCard = ({setState}: signInCardProps) => {
                     Don&apos;t have an account? <span 
                     onClick={()=>setState('signUp')}
                     className="text-sky-700 hover:underline cursor-pointer" 
+                    onKeyDown={(e)=>{
+                        if(e.key === 'Enter'){
+                            setState('signUp')
+                        }
+                    }}
                     >Sign Up</span>
                 </p>
                 </div>
