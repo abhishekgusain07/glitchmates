@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { useWorkspaceId } from "@/hooks/use-workspace-id"
-import { LucideIcon } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 import Link from "next/link"
-import { IconType } from "react-icons/lib"
+import type { IconType } from "react-icons/lib"
 import {cva, type VariantProps  } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
@@ -34,6 +34,7 @@ const SidebarItem = ({
     variant
 }: SidebarItemProps) => {
     const workspaceId = useWorkspaceId()
+    const redirectLink = (id === 'threads' || id === 'drafts') ? '/comingsoon' : `/workspace/${workspaceId}/channel/${id}`
     return (
         <Button
             asChild 
@@ -41,7 +42,7 @@ const SidebarItem = ({
             size="sm"
             className={cn(sidebarItemVariants({variant}))}
         >
-            <Link href={'/comingsoon'}>
+            <Link href={redirectLink}>
                 <Icon className="size-3.5 mr-1 shrink-0"/>
                 <span className="text-sm truncate">{label}</span>
             </Link>
